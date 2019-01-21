@@ -1,0 +1,13 @@
+1、开始配置环境变量  
+通过 vim  /etc/profile  命令打开 profile 文件盘配置环境变量
+打开之后按 i   进入 insert （插入）模式，在文件末尾添加上环境变量
+
+
+export JAVA_HOME=/usr/local/java/jdk1.8.0_11
+
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+保存完之后输入：source /etc/profile  命令使刚才配置的环境变量生效

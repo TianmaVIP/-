@@ -1,0 +1,52 @@
+Centos6.5 防火墙开放端口
+0. 说明
+centos6.5处于对安全的考虑，严格控制网络进去。所以在安装mysql或者使用tomcat，需要开放端口3306或8080。
+通常的解决办法有两个。一个是直接关闭防火墙(非常不推荐)：
+
+service iptables stop 
+但是这样相当于把系统完全暴露，会带来很大的安全隐患。所以，第二种方案就是修改防火墙策略，如下文介绍。
+
+1. 查看防火墙当前设置
+/etc/init.d/iptables status
+查看已有的防火墙配置信息，需要开放的端口是否已经开放。
+
+2.配置防火墙策略（root权限）
+比如我要开放22/80/3306三个端口，可以在/etc/sysconfig/iptables文件中添加三行信息，如下：
+
+vi /etc/sysconfig/iptables
+
+内容修改成如下：
+# Firewall configuration written by system-config-firewall 
+# Manual customization of this file is not recommended. 
+*filter 
+:INPUT ACCEPT [0:0] 
+:FORWARD ACCEPT [0:0] 
+:OUTPUT ACCEPT [0:0] 
+-A INPUT -m state –state ESTABLISHED,RELATED -j ACCEPT 
+-A INPUT -p icmp -j ACCEPT 
+-A INPUT -i lo -j ACCEPT 
+
+-A INPUT -m state –state NEW -m tcp -p tcp –dport 22 -j ACCEPT 
+-A INPUT -m state –state NEW -m tcp -p tcp –dport 80 -j ACCEPT
+-A INPUT -m state –state NEW -m tcp -p tcp –dport 3306 -j ACCEPT 
+
+-A INPUT -j REJECT –reject-with icmp-host-prohibited 
+-A FORWARD -j REJECT –reject-with icmp-host-prohibited 
+COMMIT 
+保存，退出
+
+3.重启防火墙
+service iptables restart
+完成。可以再执行步骤1查看开放端口配置结果。
+
+4.开放一个范围的端口
+比如开放3000到5000的端口。
+
+-A INPUT -m state –state NEW -m tcp -p tcp –dport 3000:5000 -j ACCEPT 
+5.重启或关闭防火墙两种方式
+5.1 系统重启后生效。开机自启动，或者自动关闭。
+开启： chkconfig iptables on
+关闭： chkconfig iptables off
+5.2 即时生效，系统重启后失效
+开启： service iptables start
+关闭： service iptables stop
