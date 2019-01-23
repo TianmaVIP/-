@@ -1,0 +1,101 @@
+centos 7 防火墙和端口配置（iptables版）
+--解决 RHEL 7/ CentOS 7/Fedora 出现Unit iptables.service failed to load
+
+# 第一步,关闭firewall：
+	CentOS 7.0默认使用的是firewall作为防火墙，这里改为iptables防火墙。
+	systemctl stop firewalld.service 　　　　#停止firewall
+	systemctl disable firewalld.service 　　#禁止firewall开机启动
+
+# 第二步,安装iptables-services：
+	yum install iptables-services
+
+# 第三步,启用iptables-services：
+
+	# systemctl enable iptables　　 #启用
+	Created symlink from /etc/systemd/system/basic.target.wants/iptables.service to /usr/lib/systemd/system/iptables.service.
+# 第四步,查看状态# service iptables status　　　　#查看状态
+	Redirecting to /bin/systemctl status  iptables.service
+	● iptables.service - IPv4 firewall with iptables
+	Loaded: loaded (/usr/lib/systemd/system/iptables.service; enabled; vendor preset: disabled)
+	Active: inactive (dead)
+# 第五步,启动防火墙# service iptables start　　　　 #启动
+	Redirecting to /bin/systemctl start  iptables.service
+# 第六步,查看状态# service iptables status
+	Redirecting to /bin/systemctl status  iptables.service
+	● iptables.service - IPv4 firewall with iptables
+	   Loaded: loaded (/usr/lib/systemd/system/iptables.service; enabled; vendor preset: disabled)
+	   Active: active (exited) since 一 2016-10-03 15:41:24 CST; 8s ago
+	  Process: 9913 ExecStart=/usr/libexec/iptables/iptables.init start (code=exited, status=0/SUCCESS)
+	 Main PID: 9913 (code=exited, status=0/SUCCESS)
+	 
+	10月 03 15:41:24 vm-xiluhua systemd[1]: Starting IPv4 firewall with iptables...
+	10月 03 15:41:24 vm-xiluhua iptables.init[9913]: iptables: Applying firewall rules: [  确定  ]
+	10月 03 15:41:24 vm-xiluhua systemd[1]: Started IPv4 firewall with iptables.
+# 第七步,执行iptables命令开启或关闭端口
+
+	# 开启
+	iptables -A INPUT -p tcp --dport 3690 -j ACCEPT;
+	# 关闭
+	iptables -A INPUT -p tcp --dport 3690 -j DROP
+	# 查看是否有端口3690的配置,并显示行号
+	iptables -L -n --line-number | grep 3690
+	# 按行号删除,开启或关闭
+	iptables -D INPUT 1
+
+	#保存规则到iptables,重启配置依然有效
+	# service iptables save
+	iptables: Saving firewall rules to /etc/sysconfig/iptables:[  确定  ]
+
+
+
+
+centos 7 防火墙和端口配置（firewall版）
+
+注意:使用阿里云服务器,先要在阿里云后台开放端口,然后关闭centos防火墙或者开放centos的对应端口,只开放centos端口,不设置阿里云端口设置,仍然不能访问!
+
+
+
+
+
+命令的方式添加端口
+
+firewall-cmd --permanent --add-port=9527/tcp
+
+1、firewall-cmd：是Linux提供的操作firewall的一个工具；
+2、--permanent：表示设置为持久；
+3、--add-port：标识添加的端口；
+
+另外，firewall中有Zone的概念，可以将具体的端口制定到具体的zone配置文件中。
+
+例如：添加8010端口
+
+firewall-cmd --zone=public --permanent --add-port=8010/tcp
+
+--zone=public：指定的zone为public；
+---------------------------------------------------------------------------------------------------------
+firewall常用命令
+1、重启、关闭、开启firewalld服务
+
+systemctl start firewalld         # 启动,
+systemctl enable firewalld        # 开机启动
+systemctl stop firewalld          # 关闭
+systemctl disable firewalld       # 取消开机启动
+service firewalld restart 重启
+1
+2
+3
+4
+5
+2、查看firewall的状态
+
+firewall-cmd --state
+3、查看防火墙规则
+
+firewall-cmd –list-all 
+-------------------------------------------------------------------------------------------------------- 
+
+
+
+
+
+
