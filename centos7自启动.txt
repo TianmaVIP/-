@@ -1,0 +1,53 @@
+下面将以redis服务为例：
+1、编写服务启动脚本 redis.sh
+
+命令：vim redis.sh
+
+                
+在该文件中添加如下内容：
+
+                 
+#!/bin/bash
+
+                 
+/.../src/redis-server /.../redis.conf
+
+
+2、到/lib/systemd/system目录下
+    
+命令：cd /lib/systemd/system
+
+3、 在该目录下新建文件  
+redis.service
+
+    
+命令：vim redis.service
+    
+在该文件中添加如下内容：
+
+    
+[Unit]
+    
+Description=Start redis server
+    
+After=rc-local.service
+
+    
+[Service]
+    
+Type=forking
+    
+ExecStart=/etc/redis.sh (你的服务脚本所在目录)
+    
+SysVStartPriority=99
+
+    
+[Install]
+    
+WantedBy=multi-user.target
+
+4、设置redis服务开机自启动
+    
+命令：systemctl enable redis.service
+
+以上配置完成。
