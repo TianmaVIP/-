@@ -1,97 +1,92 @@
-centos 7 ·À»ğÇ½ºÍ¶Ë¿ÚÅäÖÃ£¨iptables°æ£©
---½â¾ö RHEL 7/ CentOS 7/Fedora ³öÏÖUnit iptables.service failed to load
+centos 7 é˜²ç«å¢™å’Œç«¯å£é…ç½®ï¼ˆiptablesç‰ˆï¼‰
+--è§£å†³ RHEL 7/ CentOS 7/Fedora å‡ºç°Unit iptables.service failed to load
 
-# µÚÒ»²½,¹Ø±Õfirewall£º
-	CentOS 7.0Ä¬ÈÏÊ¹ÓÃµÄÊÇfirewall×÷Îª·À»ğÇ½£¬ÕâÀï¸ÄÎªiptables·À»ğÇ½¡£
-	systemctl stop firewalld.service ¡¡¡¡¡¡¡¡#Í£Ö¹firewall
-	systemctl disable firewalld.service ¡¡¡¡#½ûÖ¹firewall¿ª»úÆô¶¯
+# ç¬¬ä¸€æ­¥,å…³é—­firewallï¼š
+	CentOS 7.0é»˜è®¤ä½¿ç”¨çš„æ˜¯firewallä½œä¸ºé˜²ç«å¢™ï¼Œè¿™é‡Œæ”¹ä¸ºiptablesé˜²ç«å¢™ã€‚
+	systemctl stop firewalld.service ã€€ã€€ã€€ã€€#åœæ­¢firewall
+	systemctl disable firewalld.service ã€€ã€€#ç¦æ­¢firewallå¼€æœºå¯åŠ¨
 
-# µÚ¶ş²½,°²×°iptables-services£º
+# ç¬¬äºŒæ­¥,å®‰è£…iptables-servicesï¼š
 	yum install iptables-services
 
-# µÚÈı²½,ÆôÓÃiptables-services£º
+# ç¬¬ä¸‰æ­¥,å¯ç”¨iptables-servicesï¼š
 
-	# systemctl enable iptables¡¡¡¡ #ÆôÓÃ
+	# systemctl enable iptablesã€€ã€€ #å¯ç”¨
 	Created symlink from /etc/systemd/system/basic.target.wants/iptables.service to /usr/lib/systemd/system/iptables.service.
-# µÚËÄ²½,²é¿´×´Ì¬# service iptables status¡¡¡¡¡¡¡¡#²é¿´×´Ì¬
+# ç¬¬å››æ­¥,æŸ¥çœ‹çŠ¶æ€# service iptables statusã€€ã€€ã€€ã€€#æŸ¥çœ‹çŠ¶æ€
 	Redirecting to /bin/systemctl status  iptables.service
-	¡ñ iptables.service - IPv4 firewall with iptables
+	â— iptables.service - IPv4 firewall with iptables
 	Loaded: loaded (/usr/lib/systemd/system/iptables.service; enabled; vendor preset: disabled)
 	Active: inactive (dead)
-# µÚÎå²½,Æô¶¯·À»ğÇ½# service iptables start¡¡¡¡¡¡¡¡ #Æô¶¯
+# ç¬¬äº”æ­¥,å¯åŠ¨é˜²ç«å¢™# service iptables startã€€ã€€ã€€ã€€ #å¯åŠ¨
 	Redirecting to /bin/systemctl start  iptables.service
-# µÚÁù²½,²é¿´×´Ì¬# service iptables status
+# ç¬¬å…­æ­¥,æŸ¥çœ‹çŠ¶æ€# service iptables status
 	Redirecting to /bin/systemctl status  iptables.service
-	¡ñ iptables.service - IPv4 firewall with iptables
+	â— iptables.service - IPv4 firewall with iptables
 	   Loaded: loaded (/usr/lib/systemd/system/iptables.service; enabled; vendor preset: disabled)
-	   Active: active (exited) since Ò» 2016-10-03 15:41:24 CST; 8s ago
+	   Active: active (exited) since ä¸€ 2016-10-03 15:41:24 CST; 8s ago
 	  Process: 9913 ExecStart=/usr/libexec/iptables/iptables.init start (code=exited, status=0/SUCCESS)
 	 Main PID: 9913 (code=exited, status=0/SUCCESS)
 	 
-	10ÔÂ 03 15:41:24 vm-xiluhua systemd[1]: Starting IPv4 firewall with iptables...
-	10ÔÂ 03 15:41:24 vm-xiluhua iptables.init[9913]: iptables: Applying firewall rules: [  È·¶¨  ]
-	10ÔÂ 03 15:41:24 vm-xiluhua systemd[1]: Started IPv4 firewall with iptables.
-# µÚÆß²½,Ö´ĞĞiptablesÃüÁî¿ªÆô»ò¹Ø±Õ¶Ë¿Ú
+	10æœˆ 03 15:41:24 vm-xiluhua systemd[1]: Starting IPv4 firewall with iptables...
+	10æœˆ 03 15:41:24 vm-xiluhua iptables.init[9913]: iptables: Applying firewall rules: [  ç¡®å®š  ]
+	10æœˆ 03 15:41:24 vm-xiluhua systemd[1]: Started IPv4 firewall with iptables.
+# ç¬¬ä¸ƒæ­¥,æ‰§è¡Œiptableså‘½ä»¤å¼€å¯æˆ–å…³é—­ç«¯å£
 
-	# ¿ªÆô
+	# å¼€å¯
 	iptables -A INPUT -p tcp --dport 3690 -j ACCEPT;
-	# ¹Ø±Õ
+	# å…³é—­
 	iptables -A INPUT -p tcp --dport 3690 -j DROP
-	# ²é¿´ÊÇ·ñÓĞ¶Ë¿Ú3690µÄÅäÖÃ,²¢ÏÔÊ¾ĞĞºÅ
+	# æŸ¥çœ‹æ˜¯å¦æœ‰ç«¯å£3690çš„é…ç½®,å¹¶æ˜¾ç¤ºè¡Œå·
 	iptables -L -n --line-number | grep 3690
-	# °´ĞĞºÅÉ¾³ı,¿ªÆô»ò¹Ø±Õ
+	# æŒ‰è¡Œå·åˆ é™¤,å¼€å¯æˆ–å…³é—­
 	iptables -D INPUT 1
 
-	#±£´æ¹æÔòµ½iptables,ÖØÆôÅäÖÃÒÀÈ»ÓĞĞ§
+	#ä¿å­˜è§„åˆ™åˆ°iptables,é‡å¯é…ç½®ä¾ç„¶æœ‰æ•ˆ
 	# service iptables save
-	iptables: Saving firewall rules to /etc/sysconfig/iptables:[  È·¶¨  ]
+	iptables: Saving firewall rules to /etc/sysconfig/iptables:[  ç¡®å®š  ]
 
 
 
 
-centos 7 ·À»ğÇ½ºÍ¶Ë¿ÚÅäÖÃ£¨firewall°æ£©
+centos 7 é˜²ç«å¢™å’Œç«¯å£é…ç½®ï¼ˆfirewallç‰ˆï¼‰
 
-×¢Òâ:Ê¹ÓÃ°¢ÀïÔÆ·şÎñÆ÷,ÏÈÒªÔÚ°¢ÀïÔÆºóÌ¨¿ª·Å¶Ë¿Ú,È»ºó¹Ø±Õcentos·À»ğÇ½»òÕß¿ª·ÅcentosµÄ¶ÔÓ¦¶Ë¿Ú,Ö»¿ª·Åcentos¶Ë¿Ú,²»ÉèÖÃ°¢ÀïÔÆ¶Ë¿ÚÉèÖÃ,ÈÔÈ»²»ÄÜ·ÃÎÊ!
-
-
+æ³¨æ„:ä½¿ç”¨é˜¿é‡Œäº‘æœåŠ¡å™¨,å…ˆè¦åœ¨é˜¿é‡Œäº‘åå°å¼€æ”¾ç«¯å£,ç„¶åå…³é—­centosé˜²ç«å¢™æˆ–è€…å¼€æ”¾centosçš„å¯¹åº”ç«¯å£,åªå¼€æ”¾centosç«¯å£,ä¸è®¾ç½®é˜¿é‡Œäº‘ç«¯å£è®¾ç½®,ä»ç„¶ä¸èƒ½è®¿é—®!
 
 
 
-ÃüÁîµÄ·½Ê½Ìí¼Ó¶Ë¿Ú
+
+
+å‘½ä»¤çš„æ–¹å¼æ·»åŠ ç«¯å£
 
 firewall-cmd --permanent --add-port=9527/tcp
 
-1¡¢firewall-cmd£ºÊÇLinuxÌá¹©µÄ²Ù×÷firewallµÄÒ»¸ö¹¤¾ß£»
-2¡¢--permanent£º±íÊ¾ÉèÖÃÎª³Ö¾Ã£»
-3¡¢--add-port£º±êÊ¶Ìí¼ÓµÄ¶Ë¿Ú£»
+1ã€firewall-cmdï¼šæ˜¯Linuxæä¾›çš„æ“ä½œfirewallçš„ä¸€ä¸ªå·¥å…·ï¼›
+2ã€--permanentï¼šè¡¨ç¤ºè®¾ç½®ä¸ºæŒä¹…ï¼›
+3ã€--add-portï¼šæ ‡è¯†æ·»åŠ çš„ç«¯å£ï¼›
 
-ÁíÍâ£¬firewallÖĞÓĞZoneµÄ¸ÅÄî£¬¿ÉÒÔ½«¾ßÌåµÄ¶Ë¿ÚÖÆ¶¨µ½¾ßÌåµÄzoneÅäÖÃÎÄ¼şÖĞ¡£
+å¦å¤–ï¼Œfirewallä¸­æœ‰Zoneçš„æ¦‚å¿µï¼Œå¯ä»¥å°†å…·ä½“çš„ç«¯å£åˆ¶å®šåˆ°å…·ä½“çš„zoneé…ç½®æ–‡ä»¶ä¸­ã€‚
 
-ÀıÈç£ºÌí¼Ó8010¶Ë¿Ú
+ä¾‹å¦‚ï¼šæ·»åŠ 8010ç«¯å£
 
 firewall-cmd --zone=public --permanent --add-port=8010/tcp
 
---zone=public£ºÖ¸¶¨µÄzoneÎªpublic£»
+--zone=publicï¼šæŒ‡å®šçš„zoneä¸ºpublicï¼›
 ---------------------------------------------------------------------------------------------------------
-firewall³£ÓÃÃüÁî
-1¡¢ÖØÆô¡¢¹Ø±Õ¡¢¿ªÆôfirewalld·şÎñ
+firewallå¸¸ç”¨å‘½ä»¤
+1ã€é‡å¯ã€å…³é—­ã€å¼€å¯firewalldæœåŠ¡
 
-systemctl start firewalld         # Æô¶¯,
-systemctl enable firewalld        # ¿ª»úÆô¶¯
-systemctl stop firewalld          # ¹Ø±Õ
-systemctl disable firewalld       # È¡Ïû¿ª»úÆô¶¯
-service firewalld restart ÖØÆô
-1
-2
-3
-4
-5
-2¡¢²é¿´firewallµÄ×´Ì¬
+systemctl start firewalld         # å¯åŠ¨,
+systemctl enable firewalld        # å¼€æœºå¯åŠ¨
+systemctl stop firewalld          # å…³é—­
+systemctl disable firewalld       # å–æ¶ˆå¼€æœºå¯åŠ¨
+service firewalld restart é‡å¯
+2ã€æŸ¥çœ‹firewallçš„çŠ¶æ€
 
 firewall-cmd --state
-3¡¢²é¿´·À»ğÇ½¹æÔò
+3ã€æŸ¥çœ‹é˜²ç«å¢™è§„åˆ™
 
-firewall-cmd ¨Clist-all 
+firewall-cmd â€“list-all 
 -------------------------------------------------------------------------------------------------------- 
 
 
