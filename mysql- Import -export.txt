@@ -1,3 +1,15 @@
+首先linux 下查看mysql相关目录
+root@ubuntu14:~# whereis mysql
+mysql: 
+/usr/bin/mysql----   mysql的运行路径 
+/etc/mysql 
+/usr/lib/mysql-----   mysql的安装路径
+/usr/bin/X11/mysql 
+/usr/share/mysql
+/usr/share/man/man1/mysql.1.gz
+此外还有一个：
+var/lib/mysql --------mysql数据库data文件的存放路径
+
 一、导出数据库用mysqldump命令
 （注意:先cd到mysql的运行路径下，再执行一下命令）：
 1、导出数据和表结构：
