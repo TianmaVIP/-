@@ -25,3 +25,10 @@
 ---修改root用户密码
 	UPDATE mysql.user SET password=PASSWORD('新密码') WHERE User='root';
 
+---只删除数据库中的数据表，不删库
+1、先使用select 查找出所有表格，执行语句后输出DROP TABLE IF EXISTS table_name；
+	SELECT concat('DROP TABLE IF EXISTS ', table_name, ';')
+	FROM information_schema.tables
+	WHERE table_schema = 'mydb';
+2、粘贴出要删掉的该库的所有数据表，执行这些sql语句就会drop这些tables
+	DROP TABLE IF EXISTS table_name；
